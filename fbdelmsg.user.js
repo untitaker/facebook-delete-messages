@@ -1,8 +1,9 @@
 // ==UserScript==
-// @name        Facebook: Message quick-delete buttons
-// @description Adds a direct delete button to message threads and replace the 'archive' button with a immediate delete button. Based on http://userscripts.org/scripts/show/106261
+// @name        Facebook Delete Messages
+// @author      Markus Unterwaditzer <markus@unterwaditzer.net> http://unterwaditzer.net
+// @description Userscript for Facebook Messages to replace the archive button with a delete button. Based on http://userscripts.org/scripts/show/106261
 // @version     0.1
-// @namespace   privacyplease
+// @namespace   fbdelmsg
 // @include     http://*.facebook.com/*
 // @include     https://*.facebook.com/*
 // @require     http://code.jquery.com/jquery-1.3.2.min.js
