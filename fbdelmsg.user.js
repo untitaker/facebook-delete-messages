@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name        Facebook Delete Messages
-// @author      Markus Unterwaditzer <markus@unterwaditzer.net> http://unterwaditzer.net
 // @description Userscript for Facebook Messages to replace the archive button with a delete button. Based on http://userscripts.org/scripts/show/106261
+// @updateURL   https://github.com/untitaker/facebook-delete-messages/raw/master/fbdelmsg.user.js
+// @downloadURL https://github.com/untitaker/facebook-delete-messages/raw/master/fbdelmsg.user.js
 // @version     0.1
 // @namespace   fbdelmsg
 // @include     http://*.facebook.com/*
 // @include     https://*.facebook.com/*
-// @require     http://code.jquery.com/jquery-1.3.2.min.js
+// @require     https://code.jquery.com/jquery-1.3.2.min.js
 //
 // ==/UserScript==
 
