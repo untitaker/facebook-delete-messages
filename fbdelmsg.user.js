@@ -24,13 +24,23 @@ function addJQuery(callback) {
 }
 
 
-function switchDeleteButtons() {
+function runScript() {
   var q = jQuery;
   // Restore global $ variable for sanity.
   $.noConflict();
+  
   var running = false;
-  var run = function() {
-   console.log('Running!');
+  var debug = function(msg, lvl) {
+    prefix = 'FB Delete Messages: ';
+    if(lvl && lvl == 'error') {
+      console.log(prefix+msg);
+    } else {
+      // console.log(prefix+msg);
+    }
+  }
+
+  var replace_buttons = function() {
+   debug('Running!');
     if (running || q('#MessagingDashboard').length == 0) {
       return;
     }
@@ -38,7 +48,7 @@ function switchDeleteButtons() {
     try {
       if (q('#MessagingThreadlist').length == 0) {
         // Single view of messaging thread
-        console.log('Detected single view');
+        debug('Detected single view');
         if (q('#QuickDelete').length == 0) {
           actions = q('#MessagingFrame').find('form.uiHeaderActions');
           tid = actions.find('input[name=tid]').first().attr('value');
@@ -46,14 +56,13 @@ function switchDeleteButtons() {
             elem = q('<a class="uiButton uiButtonConfirm uiToolbarItem" id="QuickDelete" role="button" rel="dialog"><span class="uiButtonText">Delete All</span></a>');
             elem.attr('href','/ajax/messaging/async.php?action=deleteDialog&tid='+encodeURIComponent(tid));
             elem.attr('ajaxify','/ajax/messaging/async.php?action=deleteDialog&tid='+encodeURIComponent(tid));
-            // console.log(elem, actions.find('div[class~='uiToolbarContent']'));
             elem.insertBefore(actions.find('div.uiToolbarContent').children().children().first());
           }
         }
       } else {
         // We are in the overview of all messages
         // Avoid false positives by class and structure matching. Better than URLs.
-        console.log('Detected overview');
+        debug('Detected overview');
         q('li.threadRow a.archiveLink').each(function() {
           a = q(this);
           a.attr('ajaxify', a.attr('ajaxify').replace('action=tag&','action=delete&'));
@@ -67,14 +76,13 @@ function switchDeleteButtons() {
         });
       }
     }
-    catch(e){ console.log('Exception:', e) };
+    catch(e){ debug('Exception:'+e, 'error') };
     running = false;
   };
 
-  run();
-  jQuery(document).ready(run);
-  jQuery(document).bind('DOMNodeInserted', run);
+  jQuery(document).ready(replace_buttons);
+  jQuery(document).bind('DOMNodeInserted', replace_buttons);
 }
 
 // load jQuery and execute the main function
-addJQuery(switchDeleteButtons);
+addJQuery(runScript);
