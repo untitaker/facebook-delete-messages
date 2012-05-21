@@ -53,7 +53,7 @@ function runScript() {
           actions = q('#MessagingFrame').find('form.uiHeaderActions');
           tid = actions.find('input[name=tid]').first().attr('value');
           if (tid) {
-            elem = q('<a class="uiButton uiButtonConfirm uiToolbarItem" id="QuickDelete" role="button" rel="dialog"><span class="uiButtonText">Delete All</span></a>');
+            elem = q('<a class="uiButton uiButtonConfirm uiToolbarItem" id="QuickDelete" role="button" rel="dialog"><span class="uiButtonText">Delete this conversation</span></a>');
             elem.attr('href','/ajax/messaging/async.php?action=deleteDialog&tid='+encodeURIComponent(tid));
             elem.attr('ajaxify','/ajax/messaging/async.php?action=deleteDialog&tid='+encodeURIComponent(tid));
             elem.insertBefore(actions.find('div.uiToolbarContent').children().children().first());
