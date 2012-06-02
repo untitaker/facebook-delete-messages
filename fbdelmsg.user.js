@@ -45,8 +45,10 @@ function core_script() {
      * Helper function for loops
      * */
     var foreach = function(list, callback) {
-      if(list.length > 0) {
-        for(i=0; i<list.length; i++) {
+      var i, len;
+      
+      if(len > 0) {
+        for(i=0, len=list.length; i<len; i++) {
           callback(list[i]);
         }
       }
@@ -58,6 +60,7 @@ function core_script() {
      * Facebook's javascript changed something.
      * */
     var replace_buttons = function() {
+      var actions, toolbar_button, first_toolbar_button, tid;
       if (running || !document.getElementById('MessagingDashboard')) {
         return;
       }
@@ -89,7 +92,9 @@ function core_script() {
         // Avoid false positives by class and structure matching. Better than URLs.
         debug('Detected overview');
         if(document.getElementsByClassName('deleteLink').length == 0) {
-          deal_with_them = function(a_orig) {
+          var deal_with_them = function(a_orig) {
+            var a, a_orig, l;
+            
             a = a_orig.cloneNode(true); // Make a deep copy. This will clone the original button
             a.setAttribute('ajaxify', a.getAttribute('ajaxify').replace('action=tag&','action=delete&'));
             a.setAttribute('title', 'Delete this conversation');
@@ -123,7 +128,7 @@ function core_script() {
         }
 
         // Add "Delete All" button on top
-        if(!document.getElementById('QuickDelete')) {
+        if(!document.getElementById('QuickDelete')) {          
           toolbar_button = document.createElement('a');
           toolbar_button.className = 'uiButton uiButtonConfirm uiToolbarItem';
           toolbar_button.setAttribute('id', 'QuickDelete');
