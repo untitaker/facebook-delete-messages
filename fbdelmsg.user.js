@@ -93,7 +93,7 @@ function core_script() {
         debug('Detected overview');
         if(document.getElementsByClassName('deleteLink').length == 0) {
           var deal_with_them = function(a_orig) {
-            var a, a_orig, l;
+            var a, l;
             
             a = a_orig.cloneNode(true); // Make a deep copy. This will clone the original button
             a.setAttribute('ajaxify', a.getAttribute('ajaxify').replace('action=tag&','action=delete&'));
