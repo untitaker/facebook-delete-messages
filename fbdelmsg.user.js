@@ -11,11 +11,10 @@
 
 // Inject code from a function into the site
 function dump_script(some_script) {
-  script = document.createElement('script');
+  var script = document.createElement('script');
   script.textContent = '(' + some_script.toString() + ')();';
   document.body.appendChild(script);
 }
-
 
 function core_script() {
 
@@ -23,7 +22,7 @@ function core_script() {
    * A debug function.
    * */
   var debug = function(msg, lvl) {
-    prefix = 'FB Delete Messages: ';
+    var prefix = 'FB Delete Messages: ';
     if(lvl && lvl == 'error') {
       console.log(prefix+msg);
     } else {
@@ -51,6 +50,19 @@ function core_script() {
     }
 
     /*
+     * "Bootstrap" for a toolbar button
+     * */
+    var toolbar_button_bootstrap = function(text, title) {
+      var toolbar_button = document.createElement('a');
+      toolbar_button.className = 'uiButton uiButtonConfirm uiToolbarItem';
+      toolbar_button.setAttribute('id', 'QuickDelete');
+      toolbar_button.setAttribute('role', 'button');
+      toolbar_button.setAttribute('title', title);
+      toolbar_button.innerHTML = '<span class="uiButtonText">'+text+'</span>';
+      return toolbar_button;
+    }
+
+    /*
      * Does the main job; replaces all site buttons with the superior ones.
      * Gets executed multiple times per pageload, for example after
      * Facebook's javascript changed something.
@@ -69,16 +81,11 @@ function core_script() {
           tid = document.getElementsByName('tid');
           if (tid.length > 0) {
             tid = tid[0].value;
-            toolbar_button = document.createElement('a');
-            toolbar_button.className = 'uiButton uiButtonConfirm uiToolbarItem';
-            toolbar_button.setAttribute('id', 'QuickDelete');
-            toolbar_button.setAttribute('role', 'button');
+            toolbar_button = toolbar_button_bootstrap('Delete', 'Delete this conversation');
             toolbar_button.setAttribute('rel', 'dialog');
-            toolbar_button.setAttribute('title', 'Delete this conversation');
             toolbar_button.setAttribute('href', '/ajax/messaging/async.php?action=deleteDialog&tid='+encodeURIComponent(tid));
             toolbar_button.setAttribute('ajaxify', toolbar_button.getAttribute('href'));
 
-            toolbar_button.innerHTML = '<span class="uiButtonText">Delete</span>';
             first_toolbar_button = document.getElementsByClassName('uiToolbarItem')[0];
             first_toolbar_button.parentNode.insertBefore(toolbar_button, first_toolbar_button.nextSibling);
           }
@@ -90,7 +97,7 @@ function core_script() {
         if(document.getElementsByClassName('deleteLink').length == 0) {
           var deal_with_them = function(a_orig) {
             var a, l;
-            
+
             a = a_orig.cloneNode(true); // Make a deep copy. This will clone the original button
             a.setAttribute('ajaxify', a.getAttribute('ajaxify').replace('action=tag&','action=delete&'));
             a.setAttribute('title', 'Delete this conversation');
@@ -116,7 +123,7 @@ function core_script() {
             }
           }
 
-          // handle the unarchive links before the archive links, otherwise the
+          // handle the archive links before the unarchive links, otherwise the
           // already processed unarchive links will get an archive link class
           // (for style) and will be processed again.
           foreach(document.getElementsByClassName('archiveLink'), deal_with_them);
@@ -124,15 +131,9 @@ function core_script() {
         }
 
         // Add "Delete All" button on top
-        if(!document.getElementById('QuickDelete')) {          
-          toolbar_button = document.createElement('a');
-          toolbar_button.className = 'uiButton uiButtonConfirm uiToolbarItem';
-          toolbar_button.setAttribute('id', 'QuickDelete');
-          toolbar_button.setAttribute('role', 'button');
-          toolbar_button.setAttribute('title', 'Delete all conversations');
+        if(!document.getElementById('QuickDelete')) {
+          toolbar_button = toolbar_button_bootstrap('Delete all', 'Delete all conversations');
           toolbar_button.setAttribute('href', '#');
-          toolbar_button.innerHTML = '<span class="uiButtonText">Delete all</span>';
-
           toolbar_button.addEventListener('click', function(){
             if(confirm('Do you want to delete all your messages?')) {
               foreach(document.getElementsByClassName('deleteLink'), function(link){
