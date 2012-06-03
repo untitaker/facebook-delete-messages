@@ -45,12 +45,8 @@ function core_script() {
      * Helper function for loops
      * */
     var foreach = function(list, callback) {
-      var i, len;
-      
-      if(len > 0) {
-        for(i=0, len=list.length; i<len; i++) {
-          callback(list[i]);
-        }
+      for(var i=0; i<list.length; i++) {
+        callback(list[i]);
       }
     }
 
