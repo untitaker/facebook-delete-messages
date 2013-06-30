@@ -1,3 +1,5 @@
+## This script is discontinued and only kept for archival. Facebook's UI changes too fast and fundamentally for me to care.
+
 # Facebook Delete Messages (Userscript)
 
 This userscript replaces the archive button in Facebook's thread overview with an actual delete button. It is a fork of http://userscripts.org/scripts/show/106261
